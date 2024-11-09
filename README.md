@@ -77,6 +77,6 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 ### gameSpeed
 ###### determines how fast the game goes, will increase based on score
 #### attributes
-`time interval`
+`Time interval`
 #### methods
 `adjustSpeed()`
