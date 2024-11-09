@@ -52,6 +52,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 #### methods
 `spawnRandomPiece()`
 
+
 ### Controls
 ###### the user input: for rotating, left and right, speeding downwards, and 'dropping' (instantly translating a block to the bottom)
 #### attributes
