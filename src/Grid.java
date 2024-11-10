@@ -14,6 +14,7 @@ public class Grid {
         }
     }
 
+    //Displays game grid
     public void displayGrid() {
         grid = new int[height][width];
         for (int y = 0; y < height; y++) {
