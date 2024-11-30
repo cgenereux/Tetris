@@ -3,7 +3,7 @@ public class Grid {
     private final int height = 20;
     private final int width = 10;
 
-    private int[][] grid; // maybe map is a better name guys idrk
+    private int[][] grid;
 
     public Grid() {
         grid = new int[height][width];
@@ -14,15 +14,22 @@ public class Grid {
         }
     }
 
-    //Displays game grid
+    // displays game grid
     public void displayGrid() {
-        grid = new int[height][width];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                System.out.println(grid[x][y] +  " ");
+                if (grid[y][x] == 0) {
+                    System.out.print(". "); // represent empty cells with a "."
+                } else {
+                    System.out.print(grid[y][x] + " ");  // represent blocks with grid[y][x]
+                }
             }
             System.out.println("\n");
         }
+    }
+
+    private boolean isWithinBounds(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
 }
