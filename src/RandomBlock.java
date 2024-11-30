@@ -13,8 +13,7 @@ public class RandomBlock {
 
     private final Random random = new Random();
 
-
     public RandomBlock() {}
 
-    public Block generateBlock() {}
+    // public Block generateBlock() {}
 }

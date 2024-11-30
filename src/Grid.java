@@ -29,7 +29,6 @@ public class Grid {
         }
     }
 
-
     public boolean placeShape(Block block, int startX, int startY) {
         // check if all the blocks of the shape can be placed without collision
         for (int[] coordinate : block.getShape()) {
@@ -47,7 +46,7 @@ public class Grid {
             grid[y][x] = block.getId();
         }
 
-        return true; // the shape was succesfully placed
+        return true; // the shape was successfully placed
     }
 
     // bounds check
