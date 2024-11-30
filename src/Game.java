@@ -49,12 +49,16 @@ public class Game extends JPanel {
         frame.setVisible(true);
 
         // testing displaying a regular o block
-        OBlock block = new OBlock();
+        OBlock oBlock = new OBlock();
+        IBlock iBlock = new IBlock();
+        JBlock jBlock = new JBlock();
+        LBlock lBlock = new LBlock();
 
-        IBlock anotherBlock = new IBlock();
+        gamePanel.grid.placeShape(oBlock, 0, 0);
+        gamePanel.grid.placeShape(iBlock, 5, 0);
+        gamePanel.grid.placeShape(jBlock, 0, 10);
+        gamePanel.grid.placeShape(lBlock, 0, 14);
 
-        gamePanel.grid.placeShape(block, 0, 0);
-        gamePanel.grid.placeShape(anotherBlock, 5, 0);
         gamePanel.grid.displayGrid();
 
     }
