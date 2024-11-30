@@ -1,3 +1,5 @@
+package Blocks;
+
 import java.util.Random;
 
 public class RandomBlock {
