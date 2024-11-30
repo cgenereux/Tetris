@@ -12,7 +12,7 @@ public class Grid {
         grid = new char[height][width];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                grid[y][x] = 0;
+                grid[y][x] = '.';
             }
         }
     }
@@ -21,40 +21,56 @@ public class Grid {
     public void displayGrid() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (grid[y][x] == 0) {
-                    System.out.print(". "); // represent empty cells with a "."
-                } else {
-                    System.out.print(grid[y][x] + " ");  // represent blocks with grid[y][x]
-                }
+                System.out.print(grid[y][x] + " ");  // represent blocks with grid[y][x]
             }
             System.out.println("\n");
         }
     }
 
-    // the name for shape might actually be block
-    public boolean placeShape(Block block, int startX, int startY) {
-        // check if all the blocks of the shape can be placed without collision
+    public boolean placeBlock(Block block, int startX, int startY) {
+        // check if all the tiles of the block can be placed without collision
         for (int[] coordinate : block.getShape()) {
             int x = startX + coordinate[0];
             int y = startY + coordinate[1];
-            if (!isWithinBounds(x, y) || grid[y][x] != 0) {
-                return false; // a block can't be placed
+            if (!isWithinBounds(x, y) || grid[y][x] != '.') {
+                return false; // a tile can't be placed
             }
         }
 
-        // place the shape since we know it's valid
+        // place the block since we know it's valid
         for (int[] coordinate : block.getShape()) {
             int x = startX + coordinate[0];
             int y = startY + coordinate[1];
             grid[y][x] = block.getTypeID();
         }
 
-        return true; // the shape was successfully placed
+        return true; // the block was successfully placed
     }
 
     // bounds check
-    private boolean isWithinBounds(int x, int y) {
+    public boolean isWithinBounds(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
+    public boolean canPlaceBlock(Block block, int startX, int startY) {
+        for (int[] coordinate : block.getShape()) {
+            int x = startX + coordinate[0];
+            int y = startY + coordinate[1];
+            if (!isWithinBounds(x, y) || grid[y][x] != '.') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void removeBlock(Block block, int startX, int startY) {
+        for (int[] coordinate : block.getShape()) {
+            int x = startX + coordinate[0];
+            int y = startY + coordinate[1];
+            if (isWithinBounds(x, y) && grid[y][x] == block.getTypeID()) {
+                grid[y][x] = '.';
+            }
+        }
     }
 
     // getters for grid dimensions
@@ -65,5 +81,4 @@ public class Grid {
     public int getWidth() {
         return width;
     }
-    
 }

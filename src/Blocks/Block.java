@@ -7,12 +7,16 @@ public class Block {
     private final int uniqueId;
     private final char typeId;
     private static int uniqueIdCounter = 1;
+    private int currentX;
+    private int currentY;
 
     public Block(int[][] shape, char typeId, String color) {
         this.typeId = typeId;
         this.uniqueId = uniqueIdCounter++;
         this.shape = shape;
         this.color = color;
+        currentX = 0;
+        currentY = 0;
     }
 
     public int[][] getShape() {
@@ -40,4 +44,19 @@ public class Block {
         };
     }
 
+    public int getCurrentX() {
+        return currentX;
+    }
+
+    public int getCurrentY() {
+        return currentY;
+    }
+
+    public void setCurrentX(int currentX) {
+        this.currentX = currentX;
+    }
+
+    public void setCurrentY(int currentY) {
+        this.currentY = currentY;
+    }
 }
