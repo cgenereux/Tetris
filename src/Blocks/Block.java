@@ -27,8 +27,17 @@ public class Block {
         return uniqueId;
     }
 
-    public String getColor() {
-        return color;
+    public String getColor(char typeID) {
+        return switch (typeID) {
+            case 'I' -> "Cyan";
+            case 'O' -> "Yellow";
+            case 'J' -> "Purple";
+            case 'L' -> "Orange";
+            case 'S' -> "Green";
+            case 'Z' -> "Red";
+            case 'T' -> "Magenta";
+            default -> "White"; // use white if it's an unknown shape
+        };
     }
 
 }
