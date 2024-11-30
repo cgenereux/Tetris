@@ -29,6 +29,7 @@ public class Grid {
         }
     }
 
+
     public boolean placeShape(Block block, int startX, int startY) {
         // check if all the blocks of the shape can be placed without collision
         for (int[] coordinate : block.getShape()) {
@@ -58,10 +59,9 @@ public class Grid {
     public int getHeight() {
         return height;
     }
+
     public int getWidth() {
         return width;
     }
-
-
     
 }
