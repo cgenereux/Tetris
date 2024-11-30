@@ -5,6 +5,7 @@ public class Grid {
 
     private int[][] grid;
 
+    // initialize the grid
     public Grid() {
         grid = new int[height][width];
         for (int y = 0; y < height; y++) {
@@ -28,8 +29,39 @@ public class Grid {
         }
     }
 
+    public boolean placeShape(Block block, int startX, int startY) {
+        // check if all the blocks of the shape can be placed without collision
+        for (int[] coordinate : block.getShape()) {
+            int x = startX + coordinate[0];
+            int y = startY + coordinate[1];
+            if (!isWithinBounds(x, y) || grid[y][x] != 0) {
+                return false; // a block can't be placed
+            }
+        }
+
+        // place the shape since we know it's valid
+        for (int[] coordinate : block.getShape()) {
+            int x = startX + coordinate[0];
+            int y = startY + coordinate[1];
+            grid[y][x] = block.getId();
+        }
+
+        return true; // the shape was succesfully placed
+    }
+
+    // bounds check
     private boolean isWithinBounds(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
+    // getters for grid dimensions
+    public int getHeight() {
+        return height;
+    }
+    public int getWidth() {
+        return width;
+    }
+
+
+    
 }
