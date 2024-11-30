@@ -1,3 +1,5 @@
+import Blocks.Block;
+
 public class Grid {
 
     private final int height = 20;
@@ -29,6 +31,7 @@ public class Grid {
         }
     }
 
+    // the name for shape might actually be block
     public boolean placeShape(Block block, int startX, int startY) {
         // check if all the blocks of the shape can be placed without collision
         for (int[] coordinate : block.getShape()) {

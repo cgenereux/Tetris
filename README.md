@@ -34,7 +34,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 `gameOver()`
 `spawnPiece()`
 
-### Block
+### Blocks.Block
 ###### To define the behaviors of the blocks
 #### attributes
 `position(x,y)`
@@ -55,7 +55,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 ### Controls
 ###### the user input: for rotating, left and right, speeding downwards, and 'dropping' (instantly translating a block to the bottom)
 #### attributes
-###### will reference to the grid and Block
+###### will reference to the grid and Blocks.Block
 #### methods
 `movePiece()`
 `rotatePiece`

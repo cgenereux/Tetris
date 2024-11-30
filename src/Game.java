@@ -1,6 +1,8 @@
+import Blocks.Block;
+import Blocks.*;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class Game extends JPanel {
     //initializing values inside of the JPanel(game window)
@@ -44,6 +46,12 @@ public class Game extends JPanel {
         frame.setLocationRelativeTo(null);
         // make it visible
         frame.setVisible(true);
+
+        // testing displaying a regular o block
+        OBlock block = new OBlock();
+        gamePanel.grid.placeShape(block, 0, 0);
+        gamePanel.grid.displayGrid();
+
     }
 
     public void moveLeft() {}

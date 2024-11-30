@@ -1,3 +1,5 @@
+package Blocks;
+
 public class Block {
 
     private final int[][] shape; // it's relative coordinates. so like: {{0, 0}, {1, 0}, etc}}
