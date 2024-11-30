@@ -1,7 +1,9 @@
 import Blocks.*;
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Game extends JPanel {
     //initializing values inside of the JPanel(game window)
@@ -13,9 +15,13 @@ public class Game extends JPanel {
     private int currentX;
     private int currentY;
 
+    private BufferedImage gridImage;
+    private BufferedImage blockImage;
+    private BufferedImage backGroundImage;
+
     public Game() {
         // tetris is usually a 1:2 aspect ratio
-        setPreferredSize(new Dimension(540, 1080)); // example dimensions
+        setPreferredSize(new Dimension(500, 1000)); // the tile images nicely downscale to 50x50
         setBackground(Color.BLACK);
         setFocusable(true);
         requestFocusInWindow();
@@ -27,6 +33,7 @@ public class Game extends JPanel {
         Controls controls = new Controls(this);
         addKeyListener(controls);
 
+        loadImages();
         startGame();
     }
 
@@ -35,8 +42,8 @@ public class Game extends JPanel {
         JFrame frame = new JFrame("Game");
         // close the game via clicking the "X"
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // don't let the user resize the window because it could lead to dimension issues for now
-        frame.setResizable(false);
+        // resizing might need to be disabled but it's fine for now
+        frame.setResizable(true);
         // create an instance of the game class
         Game gamePanel = new Game();
         // add game to the jframe
@@ -65,7 +72,6 @@ public class Game extends JPanel {
         gamePanel.grid.placeBlock(jBlock, jBlock.getCurrentX(), jBlock.getCurrentY());
         gamePanel.grid.placeBlock(lBlock, lBlock.getCurrentX(), lBlock.getCurrentY());
 
-
         gamePanel.shiftBlock(oBlock, "right");
         gamePanel.shiftBlock(iBlock, "down");
         gamePanel.grid.displayGrid();
@@ -93,6 +99,52 @@ public class Game extends JPanel {
             grid.placeBlock(block, newX, newY);
         }
 
+    }
+
+    private void loadImages() {
+        gridImage = loadImage("img/grid_50x50.png");
+        blockImage = loadImage("img/j_50x50.png");
+        backGroundImage = loadImage("img/background.png");
+        // the other blocks should be in here to eventually
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        int cellSize = 50;
+
+        for (int y = 0; y < grid.getHeight(); y++) {
+            for (int x = 0; x < grid.getWidth(); x++) {
+                int drawX = x * cellSize;
+                int drawY = y * cellSize;
+
+                // determine the type of cell and draw it
+                char cell = grid.getCell(x, y);
+                BufferedImage cellImage = getBlockImage(cell);
+
+                g.drawImage(cellImage, drawX, drawY, cellSize, cellSize, this);
+            }
+        }
+    }
+
+    private BufferedImage getBlockImage(char cell) {
+        if (cell == '#') {
+            return gridImage;
+        } else if (cell == '.') {
+            return backGroundImage;
+        } else {
+            return blockImage;
+        }
+    }
+
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(getClass().getResource(path));
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("failed to load image: " + path);
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void dropBlock() {}
