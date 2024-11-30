@@ -52,11 +52,9 @@ public class Block {
         return currentY;
     }
 
-    public void setCurrentX(int currentX) {
+    public void setCurrentPosition(int currentX, int currentY) {
         this.currentX = currentX;
-    }
-
-    public void setCurrentY(int currentY) {
         this.currentY = currentY;
     }
+
 }

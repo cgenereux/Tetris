@@ -54,16 +54,11 @@ public class Game extends JPanel {
         JBlock jBlock = new JBlock();
         LBlock lBlock = new LBlock();
 
-        // very ugly i know; they should be merged into 1 coordinate to represent x and y
-        // this is also just for testing
-        oBlock.setCurrentX(0);
-        oBlock.setCurrentY(0);
-        iBlock.setCurrentX(5);
-        iBlock.setCurrentY(0);
-        jBlock.setCurrentX(0);
-        jBlock.setCurrentY(10);
-        lBlock.setCurrentX(0);
-        lBlock.setCurrentY(14);
+        // this is just for testing
+        oBlock.setCurrentPosition(0, 0);
+        iBlock.setCurrentPosition(5, 0);
+        jBlock.setCurrentPosition(5, 5);
+        lBlock.setCurrentPosition(0, 10);
 
         gamePanel.grid.placeBlock(oBlock, oBlock.getCurrentX(), oBlock.getCurrentY());
         gamePanel.grid.placeBlock(iBlock, iBlock.getCurrentX(), iBlock.getCurrentY());
@@ -93,8 +88,7 @@ public class Game extends JPanel {
             System.out.println(true);
             grid.removeBlock(block, block.getCurrentX(), block.getCurrentY());
 
-            block.setCurrentX(newX);
-            block.setCurrentY(newY);
+            block.setCurrentPosition(newX, newY);
 
             grid.placeBlock(block, newX, newY);
         }
