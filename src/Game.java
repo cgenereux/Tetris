@@ -1,4 +1,3 @@
-import Blocks.Block;
 import Blocks.*;
 
 import javax.swing.*;
@@ -7,10 +6,12 @@ import java.awt.*;
 public class Game extends JPanel {
     //initializing values inside of the JPanel(game window)
     private final Grid grid;
-    // private final RandomBlock randomBlock;
+    // private final Blocks.RandomBlock randomBlock;
     private final Score score;
     private final GameSpeed gameSpeed;
     private Block currentBlock;
+    private int currentX;
+    private int currentY;
 
     public Game() {
         // tetris is usually a 1:2 aspect ratio
@@ -49,16 +50,33 @@ public class Game extends JPanel {
 
         // testing displaying a regular o block
         OBlock block = new OBlock();
+
+        IBlock anotherBlock = new IBlock();
+
         gamePanel.grid.placeShape(block, 0, 0);
+        gamePanel.grid.placeShape(anotherBlock, 5, 0);
         gamePanel.grid.displayGrid();
 
     }
 
-    public void moveLeft() {}
+    public void shiftBlock(String direction) {
 
-    public void moveRight() {}
+        int newX = currentX; int newY = currentY;
 
-    public void moveDown() {}
+        if (direction.equalsIgnoreCase("left")) {
+            newX -= 1;
+        } else if (direction.equalsIgnoreCase("right")) {
+            newX += 1;
+        } else if (direction.equalsIgnoreCase("down")) {
+            newY -=1;
+        }
+
+        currentX = newX;
+        currentY = newY;
+
+        grid.displayGrid();
+
+    }
 
     public void dropBlock() {}
 
