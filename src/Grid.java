@@ -5,11 +5,11 @@ public class Grid {
     private final int height = 20;
     private final int width = 10;
 
-    private int[][] grid;
+    private char[][] grid;
 
     // initialize the grid
     public Grid() {
-        grid = new int[height][width];
+        grid = new char[height][width];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 grid[y][x] = 0;
@@ -46,7 +46,7 @@ public class Grid {
         for (int[] coordinate : block.getShape()) {
             int x = startX + coordinate[0];
             int y = startY + coordinate[1];
-            grid[y][x] = block.getId();
+            grid[y][x] = block.getTypeID();
         }
 
         return true; // the shape was successfully placed
