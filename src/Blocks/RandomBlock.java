@@ -14,16 +14,6 @@ public class RandomBlock {
             {{0,1,0},{1,1,1}},  // T
     };
 
-    private static final String[] COLORS = {
-            "Cyan",    // I
-            "Yellow",  // O
-            "Purple",  // J
-            "Orange",  // L
-            "Green",   // S
-            "Red",     // Z
-            "Magenta"  // T
-    };
-
     private final Random random = new Random();
 
     public RandomBlock() {}
