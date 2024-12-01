@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 
 public class Game extends JPanel {
@@ -12,11 +13,8 @@ public class Game extends JPanel {
     private final Score score;
     private final GameSpeed gameSpeed;
     private Block currentBlock;
-    private int currentX;
-    private int currentY;
 
     private BufferedImage gridImage;
-    private BufferedImage blockImage;
     private BufferedImage backGroundImage;
     private BufferedImage oImage;
     private BufferedImage tImage;
@@ -41,7 +39,8 @@ public class Game extends JPanel {
         addKeyListener(controls);
 
         loadImages();
-        startGame();
+
+
     }
 
     public static void main(String[] args) {
@@ -61,39 +60,30 @@ public class Game extends JPanel {
         frame.setLocationRelativeTo(null);
         // make it visible
         frame.setVisible(true);
-
-
-        // this is just for testing
-        /*
-        OBlock oBlock = new OBlock();
-        IBlock iBlock = new IBlock();
-        JBlock jBlock = new JBlock();
-        LBlock lBlock = new LBlock();
-        SBlock sBlock = new SBlock();
-        TBlock tBlock = new TBlock();
-        ZBlock zBlock = new ZBlock();
-
-        oBlock.setCurrentPosition(1, 1);
-        iBlock.setCurrentPosition(3, 3);
-
-        gamePanel.grid.placeBlock(jBlock, 5, 5);
-        gamePanel.grid.placeBlock(oBlock, 1, 1);
-        gamePanel.grid.placeBlock(iBlock, 3, 3);
-        gamePanel.grid.placeBlock(zBlock, 1, 10);
-        gamePanel.grid.placeBlock(sBlock, 5, 10);
-        gamePanel.grid.placeBlock(tBlock, 1, 15);
-        gamePanel.grid.placeBlock(lBlock, 6, 15);
-
-        gamePanel.shiftBlock(oBlock, "right");
-        gamePanel.shiftBlock(iBlock, "down");
-         */
+        gamePanel.requestFocusInWindow();
 
         RandomBlock randomBlockGenerator = new RandomBlock();
         Block randomBlock = randomBlockGenerator.generateBlock();
+        randomBlock.setCurrentPosition(4, 1);
         gamePanel.grid.placeBlock(randomBlock, 4, 1);
+        gamePanel.currentBlock = randomBlock;
 
         gamePanel.grid.displayGrid();
+        gamePanel.startGame();
+    }
 
+
+    public void startGame() {
+        // shift the block down 1 every 1000 ms for now
+        Timer timer = new Timer(1000, e -> {
+            if (currentBlock != null) {
+                shiftBlock(currentBlock, "down");
+                System.out.println(currentBlock.getCurrentX() + " , " + currentBlock.getCurrentY());
+                System.out.println("repainting");
+                repaint();
+            }
+        });
+        timer.start(); // start the timer
     }
 
     public void shiftBlock(Block block, String direction) {
@@ -109,7 +99,6 @@ public class Game extends JPanel {
         }
 
         if (grid.isWithinBounds(newX, newY)) {
-            System.out.println(true);
             grid.removeBlock(block, block.getCurrentX(), block.getCurrentY());
 
             block.setCurrentPosition(newX, newY);
@@ -120,7 +109,6 @@ public class Game extends JPanel {
 
     private void loadImages() {
         gridImage = loadImage("img/grid.png");
-        blockImage = loadImage("img/block.png");
         backGroundImage = loadImage("img/background.png");
         oImage = loadImage("img/O.png");
         tImage = loadImage("img/T.png");
@@ -161,24 +149,22 @@ public class Game extends JPanel {
             case 'J' -> jImage;
             case 'S' -> sImage;
             case 'Z' -> zImage;
-            default -> blockImage;
+            default -> oImage;
         };
     }
 
     private BufferedImage loadImage(String path) {
         try {
-            return ImageIO.read(getClass().getResource(path));
+            return ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
         } catch (IOException | IllegalArgumentException e) {
             System.err.println("failed to load image: " + path);
-            e.printStackTrace();
             return null;
         }
     }
 
-    public void dropBlock() {}
-
     public void rotateBlock() {}
 
-    public void startGame() {}
-
+    public Block getCurrentBlock() {
+        return currentBlock;
+    }
 }
