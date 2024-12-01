@@ -18,6 +18,13 @@ public class Game extends JPanel {
     private BufferedImage gridImage;
     private BufferedImage blockImage;
     private BufferedImage backGroundImage;
+    private BufferedImage oImage;
+    private BufferedImage tImage;
+    private BufferedImage iImage;
+    private BufferedImage lImage;
+    private BufferedImage jImage;
+    private BufferedImage sImage;
+    private BufferedImage zImage;
 
     public Game() {
         // tetris is usually a 1:2 aspect ratio
@@ -60,16 +67,21 @@ public class Game extends JPanel {
         IBlock iBlock = new IBlock();
         JBlock jBlock = new JBlock();
         LBlock lBlock = new LBlock();
+        SBlock sBlock = new SBlock();
+        TBlock tBlock = new TBlock();
+        ZBlock zBlock = new ZBlock();
 
         // this is just for testing
         oBlock.setCurrentPosition(1, 1);
         iBlock.setCurrentPosition(3, 3);
-        gamePanel.grid.placeBlock(jBlock, 5, 5);
 
+        gamePanel.grid.placeBlock(jBlock, 5, 5);
         gamePanel.grid.placeBlock(oBlock, 1, 1);
         gamePanel.grid.placeBlock(iBlock, 3, 3);
-        gamePanel.grid.placeBlock(jBlock, 5, 5);
-        gamePanel.grid.placeBlock(lBlock, lBlock.getCurrentX(), lBlock.getCurrentY());
+        gamePanel.grid.placeBlock(zBlock, 1, 10);
+        gamePanel.grid.placeBlock(sBlock, 5, 10);
+        gamePanel.grid.placeBlock(tBlock, 1, 15);
+        gamePanel.grid.placeBlock(lBlock, 6, 15);
 
         gamePanel.shiftBlock(oBlock, "right");
         gamePanel.shiftBlock(iBlock, "down");
@@ -100,10 +112,16 @@ public class Game extends JPanel {
     }
 
     private void loadImages() {
-        gridImage = loadImage("img/grid_50x50.png");
-        blockImage = loadImage("img/j_50x50.png");
+        gridImage = loadImage("img/grid.png");
+        blockImage = loadImage("img/block.png");
         backGroundImage = loadImage("img/background.png");
-        // the other blocks should be in here to eventually
+        oImage = loadImage("img/O.png");
+        tImage = loadImage("img/T.png");
+        iImage = loadImage("img/I.png");
+        lImage = loadImage("img/L.png");
+        jImage = loadImage("img/J.png");
+        sImage = loadImage("img/S.png");
+        zImage = loadImage("img/Z.png");
     }
 
     protected void paintComponent(Graphics g) {
@@ -126,13 +144,18 @@ public class Game extends JPanel {
     }
 
     private BufferedImage getBlockImage(char cell) {
-        if (cell == '#') {
-            return gridImage;
-        } else if (cell == '.') {
-            return backGroundImage;
-        } else {
-            return blockImage;
-        }
+        return switch (cell) {
+            case '#' -> gridImage; // Grid cell
+            case '.' -> backGroundImage; // Background cell
+            case 'O' -> oImage;
+            case 'T' -> tImage;
+            case 'I' -> iImage;
+            case 'L' -> lImage;
+            case 'J' -> jImage;
+            case 'S' -> sImage;
+            case 'Z' -> zImage;
+            default -> blockImage;
+        };
     }
 
     private BufferedImage loadImage(String path) {
