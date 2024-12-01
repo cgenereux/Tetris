@@ -62,14 +62,13 @@ public class Game extends JPanel {
         LBlock lBlock = new LBlock();
 
         // this is just for testing
-        oBlock.setCurrentPosition(0, 0);
-        iBlock.setCurrentPosition(5, 0);
-        jBlock.setCurrentPosition(5, 5);
-        lBlock.setCurrentPosition(0, 10);
+        oBlock.setCurrentPosition(1, 1);
+        iBlock.setCurrentPosition(3, 3);
+        gamePanel.grid.placeBlock(jBlock, 5, 5);
 
-        gamePanel.grid.placeBlock(oBlock, oBlock.getCurrentX(), oBlock.getCurrentY());
-        gamePanel.grid.placeBlock(iBlock, iBlock.getCurrentX(), iBlock.getCurrentY());
-        gamePanel.grid.placeBlock(jBlock, jBlock.getCurrentX(), jBlock.getCurrentY());
+        gamePanel.grid.placeBlock(oBlock, 1, 1);
+        gamePanel.grid.placeBlock(iBlock, 3, 3);
+        gamePanel.grid.placeBlock(jBlock, 5, 5);
         gamePanel.grid.placeBlock(lBlock, lBlock.getCurrentX(), lBlock.getCurrentY());
 
         gamePanel.shiftBlock(oBlock, "right");
@@ -95,7 +94,6 @@ public class Game extends JPanel {
             grid.removeBlock(block, block.getCurrentX(), block.getCurrentY());
 
             block.setCurrentPosition(newX, newY);
-
             grid.placeBlock(block, newX, newY);
         }
 
