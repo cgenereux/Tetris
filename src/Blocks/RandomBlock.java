@@ -4,19 +4,21 @@ import java.util.Random;
 
 public class RandomBlock {
 
-    private static final int[][][] SHAPES = {
-            {{1,1,1,1}},        // I
-            {{1,1}, {1,1}},     // O
-            {{1,1,1}, {0,0,1}}, // J
-            {{1,1,1}, {1,0,0}}, // L
-            {{1,1,0},{0,1,1}},  // S
-            {{0,1,1},{1,1,0}},  // Z
-            {{0,1,0},{1,1,1}},  // T
-    };
-
     private final Random random = new Random();
 
-    public RandomBlock() {}
+    // pick a random block
+    public Block generateBlock() {
+        int blockType = random.nextInt(7);
+        return switch (blockType) {
+            case 1 -> new OBlock();
+            case 2 -> new JBlock();
+            case 3 -> new LBlock();
+            case 4 -> new SBlock();
+            case 5 -> new ZBlock();
+            case 6 -> new TBlock();
+            default -> new IBlock();
+        };
+    }
 
-    // public Blocks.Block generateBlock() {}
+
 }

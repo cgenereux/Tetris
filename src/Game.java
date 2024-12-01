@@ -62,7 +62,9 @@ public class Game extends JPanel {
         // make it visible
         frame.setVisible(true);
 
-        // testing displaying a regular o block
+
+        // this is just for testing
+        /*
         OBlock oBlock = new OBlock();
         IBlock iBlock = new IBlock();
         JBlock jBlock = new JBlock();
@@ -71,7 +73,6 @@ public class Game extends JPanel {
         TBlock tBlock = new TBlock();
         ZBlock zBlock = new ZBlock();
 
-        // this is just for testing
         oBlock.setCurrentPosition(1, 1);
         iBlock.setCurrentPosition(3, 3);
 
@@ -85,6 +86,12 @@ public class Game extends JPanel {
 
         gamePanel.shiftBlock(oBlock, "right");
         gamePanel.shiftBlock(iBlock, "down");
+         */
+
+        RandomBlock randomBlockGenerator = new RandomBlock();
+        Block randomBlock = randomBlockGenerator.generateBlock();
+        gamePanel.grid.placeBlock(randomBlock, 4, 1);
+
         gamePanel.grid.displayGrid();
 
     }
