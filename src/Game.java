@@ -107,6 +107,27 @@ public class Game extends JPanel {
 
     }
 
+    public void rotateBlock() {
+
+        if (currentBlock == null) {
+            return;
+        }
+        grid.removeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
+        currentBlock.rotateOnceCounterClockwise();
+        grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
+
+        /*
+        if (grid.canPlaceBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY())) {
+            grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
+        } else {
+            currentBlock.rotateOnceCounterClockwise();
+            grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
+        }
+        */
+
+
+    }
+
     private void loadImages() {
         gridImage = loadImage("img/grid.png");
         backGroundImage = loadImage("img/background.png");
@@ -122,7 +143,7 @@ public class Game extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int cellSize = 50;
+        int cellSize = 35;
 
         for (int y = 0; y < grid.getHeight(); y++) {
             for (int x = 0; x < grid.getWidth(); x++) {
@@ -161,8 +182,6 @@ public class Game extends JPanel {
             return null;
         }
     }
-
-    public void rotateBlock() {}
 
     public Block getCurrentBlock() {
         return currentBlock;

@@ -9,14 +9,17 @@ public class Block {
     private static int uniqueIdCounter = 1;
     private int currentX;
     private int currentY;
+    private int rotationState;
 
     public Block(int[][] shape, char typeId, String color) {
         this.typeId = typeId;
         this.uniqueId = uniqueIdCounter++;
         this.shape = shape;
         this.color = color;
-        currentX = 0;
-        currentY = 0;
+        this.currentX = 0;
+        this.currentY = 0;
+        this.rotationState = 0;
+
     }
 
     public int[][] getShape() {
@@ -55,6 +58,23 @@ public class Block {
     public void setCurrentPosition(int currentX, int currentY) {
         this.currentX = currentX;
         this.currentY = currentY;
+    }
+
+    public void setRotationState(int rotationState) {
+        if (rotationState >= 3) {
+            this.rotationState = 0;
+        }
+        this.rotationState = rotationState+1;
+    }
+
+    public void rotateOnceCounterClockwise() {
+        for (int[] coordinate : shape) {
+            int x = coordinate[0];
+            int y = coordinate[1];
+            coordinate[0] = -y;
+            coordinate[1] = x;
+        }
+        setRotationState(rotationState - 1);
     }
 
 }

@@ -2,8 +2,8 @@ import Blocks.Block;
 
 public class Grid {
 
-    private final int height = 20;
-    private final int width = 10;
+    private final int height = 22;
+    private final int width = 12;
 
     private char[][] grid;
 
@@ -58,7 +58,7 @@ public class Grid {
 
     // bounds check
     public boolean isWithinBounds(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
+        return x >= 1 && x < width - 1 && y >= 1 && y < height - 1;
     }
 
     public boolean canPlaceBlock(Block block, int startX, int startY) {
