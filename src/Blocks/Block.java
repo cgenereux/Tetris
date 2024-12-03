@@ -3,22 +3,22 @@ package Blocks;
 public class Block {
 
     private final int[][] shape; // it's relative coordinates. so like: {{0, 0}, {1, 0}, etc}}
-    private final String color;
     private final int uniqueId;
     private final char typeId;
     private static int uniqueIdCounter = 1;
     private int currentX;
     private int currentY;
-    private int rotationState;
+    private final int pivotX;
+    private final int pivotY;
 
     public Block(int[][] shape, char typeId, String color) {
         this.typeId = typeId;
         this.uniqueId = uniqueIdCounter++;
         this.shape = shape;
-        this.color = color;
         this.currentX = 0;
         this.currentY = 0;
-        this.rotationState = 0;
+        this.pivotX = shape[1][0];
+        this.pivotY = shape[1][1];
 
     }
 
@@ -60,21 +60,30 @@ public class Block {
         this.currentY = currentY;
     }
 
-    public void setRotationState(int rotationState) {
-        if (rotationState >= 3) {
-            this.rotationState = 0;
+    public void rotateOnceClockwise() {
+        int[][] newShape = new int[shape.length][2];
+        for (int i = 0; i < shape.length; i++) {
+            int x = shape[i][0] - pivotX;
+            int y = shape[i][1] - pivotY;
+
+            int rotatedX = y;
+            int rotatedY = -x;
+
+            newShape[i][0] = rotatedX + pivotX;
+            newShape[i][1] = rotatedY + pivotY;
         }
-        this.rotationState = rotationState+1;
+        // replace the old shape with the new one
+        for (int i = 0; i < shape.length; i++) {
+            shape[i][0] = newShape[i][0];
+            shape[i][1] = newShape[i][1];
+        }
     }
 
-    public void rotateOnceCounterClockwise() {
-        for (int[] coordinate : shape) {
-            int x = coordinate[0];
-            int y = coordinate[1];
-            coordinate[0] = -y;
-            coordinate[1] = x;
+    public void setShape(int[][] newShape) {
+        for (int i = 0; i < shape.length; i++) {
+            shape[i][0] = newShape[i][0];
+            shape[i][1] = newShape[i][1];
         }
-        setRotationState(rotationState - 1);
     }
 
 }

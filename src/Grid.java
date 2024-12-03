@@ -65,7 +65,7 @@ public class Grid {
         for (int[] coordinate : block.getShape()) {
             int x = startX + coordinate[0];
             int y = startY + coordinate[1];
-            if (!isWithinBounds(x, y) || grid[y][x] != '.') {
+            if (grid[y][x] != '.') {
                 return false;
             }
         }

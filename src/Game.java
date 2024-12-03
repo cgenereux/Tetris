@@ -13,6 +13,7 @@ public class Game extends JPanel {
     private final Score score;
     private final GameSpeed gameSpeed;
     private Block currentBlock;
+    private Timer gameTimer;
 
     private BufferedImage gridImage;
     private BufferedImage backGroundImage;
@@ -26,7 +27,7 @@ public class Game extends JPanel {
 
     public Game() {
         // tetris is usually a 1:2 aspect ratio
-        setPreferredSize(new Dimension(500, 1000)); // the tile images nicely downscale to 50x50
+        setPreferredSize(new Dimension(540, 990)); // the tile images nicely downscale to 50x50
         setBackground(Color.BLACK);
         setFocusable(true);
         requestFocusInWindow();
@@ -39,7 +40,6 @@ public class Game extends JPanel {
         addKeyListener(controls);
 
         loadImages();
-
 
     }
 
@@ -62,71 +62,106 @@ public class Game extends JPanel {
         frame.setVisible(true);
         gamePanel.requestFocusInWindow();
 
-        RandomBlock randomBlockGenerator = new RandomBlock();
-        Block randomBlock = randomBlockGenerator.generateBlock();
-        randomBlock.setCurrentPosition(4, 1);
-        gamePanel.grid.placeBlock(randomBlock, 4, 1);
-        gamePanel.currentBlock = randomBlock;
-
-        gamePanel.grid.displayGrid();
         gamePanel.startGame();
     }
 
 
     public void startGame() {
-        // shift the block down 1 every 1000 ms for now
-        Timer timer = new Timer(1000, e -> {
+        spawnNewBlock();
+
+        gameTimer = new Timer(100, e -> {
             if (currentBlock != null) {
                 shiftBlock(currentBlock, "down");
-                System.out.println(currentBlock.getCurrentX() + " , " + currentBlock.getCurrentY());
-                System.out.println("repainting");
                 repaint();
             }
         });
-        timer.start(); // start the timer
+        gameTimer.start(); // start the timer
     }
 
-    public void shiftBlock(Block block, String direction) {
 
-        int newX = block.getCurrentX(); int newY = block.getCurrentY();
+    public void shiftBlock(Block block, String direction) {
+        int newX = block.getCurrentX();
+        int newY = block.getCurrentY();
 
         if (direction.equalsIgnoreCase("left")) {
             newX -= 1;
         } else if (direction.equalsIgnoreCase("right")) {
             newX += 1;
         } else if (direction.equalsIgnoreCase("down")) {
-            newY +=1;
+            newY += 1;
         }
 
-        if (grid.isWithinBounds(newX, newY)) {
-            grid.removeBlock(block, block.getCurrentX(), block.getCurrentY());
+        // remove the current block
+        grid.removeBlock(block, block.getCurrentX(), block.getCurrentY());
 
+        // check if the intended new position is valid
+        if (grid.canPlaceBlock(block, newX, newY)) {
+            // update and place the block
             block.setCurrentPosition(newX, newY);
             grid.placeBlock(block, newX, newY);
+        } else {
+            if (direction.equalsIgnoreCase("down")) {
+                grid.placeBlock(block, block.getCurrentX(), block.getCurrentY());
+                spawnNewBlock();
+            } else {
+                // if not revert the change
+                grid.placeBlock(block, block.getCurrentX(), block.getCurrentY());
+            }
         }
+        repaint();
+    }
 
+
+    public void spawnNewBlock() {
+        // generate a new random block
+        RandomBlock randomBlockGenerator = new RandomBlock();
+        Block newBlock = randomBlockGenerator.generateBlock();
+        int startX = 5; // about the center
+        int startY = 1;
+
+        // set the block's position
+        newBlock.setCurrentPosition(startX, startY);
+
+        // check if the new block can be placed
+        if (grid.canPlaceBlock(newBlock, startX, startY)) {
+            // place the block
+            grid.placeBlock(newBlock, startX, startY);
+            currentBlock = newBlock;
+        } else {
+            // if not game over
+            gameTimer.stop();
+        }
     }
 
     public void rotateBlock() {
-
-        if (currentBlock == null) {
+        // the o block shouldn't rotate
+        if (currentBlock == null || currentBlock.getTypeID() == 'O') {
             return;
         }
-        grid.removeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
-        currentBlock.rotateOnceCounterClockwise();
-        grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
 
-        /*
+        // remove the block from the grid before rotation
+        grid.removeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
+
+        // make a copy of the block's shape
+        int[][] originalShape = new int[currentBlock.getShape().length][2];
+        for (int i = 0; i < currentBlock.getShape().length; i++) {
+            originalShape[i][0] = currentBlock.getShape()[i][0];
+            originalShape[i][1] = currentBlock.getShape()[i][1];
+        }
+
+        currentBlock.rotateOnceClockwise();
+
+        // check if the rotated block can be placed at the current position
         if (grid.canPlaceBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY())) {
             grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
         } else {
-            currentBlock.rotateOnceCounterClockwise();
+            // if the rotation is invalid revert it
+            currentBlock.setShape(originalShape);
             grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
         }
-        */
-
-
+        repaint();
     }
+
 
     private void loadImages() {
         gridImage = loadImage("img/grid.png");
@@ -143,7 +178,7 @@ public class Game extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int cellSize = 35;
+        int cellSize = 45;
 
         for (int y = 0; y < grid.getHeight(); y++) {
             for (int x = 0; x < grid.getWidth(); x++) {
@@ -161,8 +196,8 @@ public class Game extends JPanel {
 
     private BufferedImage getBlockImage(char cell) {
         return switch (cell) {
-            case '#' -> gridImage; // Grid cell
-            case '.' -> backGroundImage; // Background cell
+            case '#' -> gridImage;
+            case '.' -> backGroundImage;
             case 'O' -> oImage;
             case 'T' -> tImage;
             case 'I' -> iImage;
