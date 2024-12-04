@@ -15,6 +15,7 @@ public class Game extends JPanel {
     private Block currentBlock;
     private Timer gameTimer;
 
+
     private BufferedImage gridImage;
     private BufferedImage backGroundImage;
     private BufferedImage oImage;
@@ -27,8 +28,8 @@ public class Game extends JPanel {
 
     public Game() {
         // tetris is usually a 1:2 aspect ratio
-        setPreferredSize(new Dimension(720, 990)); // the tile images nicely downscale to 50x50
-        //put extra width for score section 540 -> 720
+        setPreferredSize(new Dimension(540+180, 990)); // the tile images nicely downscale to 50x50
+        //put extra width for score and next block section section 540 -> 720
 
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -116,7 +117,7 @@ public class Game extends JPanel {
 
     public void spawnNewBlock() {
         System.out.println("spawning new block");
-        int linesCleared = grid.clearFullRows(); //clear the row, before spawning a new black
+        int linesCleared = grid.clearFullRows(); //get the linesCleared
         if (linesCleared > 0) {
             score.addPoints(linesCleared);
             System.out.println("Score: " + score.getScore());
