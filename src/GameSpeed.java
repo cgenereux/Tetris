@@ -1,11 +1,21 @@
 public class GameSpeed {
-    private int speed = 1000; // initial speed (ms)
+    private int baseSpeed;
+    private int currentSpeed;
+    private int scoreMax;
+    private int speedIncrement;
 
-    public int getSpeed(){
-        return speed;
+    public GameSpeed(){
+
     }
 
-    public void increaseSpeed() {
+    public void updateSpeed(int score){
 
     }
+
+    public int getCurrentSpeed(){
+
+    }
+
+
+
 }

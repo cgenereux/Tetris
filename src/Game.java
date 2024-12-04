@@ -72,7 +72,7 @@ public class Game extends JPanel {
     public void startGame() {
         spawnNewBlock();
 
-        gameTimer = new Timer(100, e -> {
+        gameTimer = new Timer(gameSpeed.getCurrentSpeed(), e -> {
             if (currentBlock != null) {
                 shiftBlock(currentBlock, "down");
                 repaint();
@@ -121,6 +121,9 @@ public class Game extends JPanel {
         if (linesCleared > 0) {
             score.addPoints(linesCleared);
             System.out.println("Score: " + score.getScore());
+
+            gameSpeed.updateSpeed(score.getScore());
+            gameTimer.setDelay(gameSpeed.getCurrentSpeed());
         }
 
 
