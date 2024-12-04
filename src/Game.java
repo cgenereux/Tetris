@@ -13,6 +13,7 @@ public class Game extends JPanel {
     private final Score score;
     private final GameSpeed gameSpeed;
     private Block currentBlock;
+    private Block nextBlock;
     private Timer gameTimer;
 
 
@@ -70,6 +71,10 @@ public class Game extends JPanel {
 
 
     public void startGame() {
+        // Generate the first "next block"
+        RandomBlock randomBlockGenerator = new RandomBlock();
+        nextBlock = randomBlockGenerator.generateBlock();
+
         spawnNewBlock();
 
         gameTimer = new Timer(gameSpeed.getCurrentSpeed(), e -> {
@@ -126,21 +131,24 @@ public class Game extends JPanel {
             gameTimer.setDelay(gameSpeed.getCurrentSpeed());
         }
 
-
-        // generate a new random block
+        currentBlock = nextBlock;
+        // Generate a new nextBlock
         RandomBlock randomBlockGenerator = new RandomBlock();
-        Block newBlock = randomBlockGenerator.generateBlock();
-        int startX = 5; // about the center
+        nextBlock = randomBlockGenerator.generateBlock();
+
+        // Set the position for the new current block
+        int startX = 5; // Center of the grid
         int startY = 1;
+        currentBlock.setCurrentPosition(startX, startY);
+
 
         // set the block's position
-        newBlock.setCurrentPosition(startX, startY);
+        currentBlock.setCurrentPosition(startX, startY);
 
         // check if the new block can be placed
-        if (grid.canPlaceBlock(newBlock, startX, startY)) {
+        if (grid.canPlaceBlock(currentBlock, startX, startY)) {
             // place the block
-            grid.placeBlock(newBlock, startX, startY);
-            currentBlock = newBlock;
+            grid.placeBlock(currentBlock, startX, startY);
         } else {
             // if not game over
             gameTimer.stop();
@@ -217,6 +225,20 @@ public class Game extends JPanel {
         g.drawString("Score: ", scoreX, 50);
         g.drawString(String.valueOf(score.getScore()), scoreX, 70);
 
+        //draw next block
+        if (nextBlock != null) {
+            g.drawString("Next Block: ", scoreX, 150);
+            int previewX = scoreX;
+            int previewY = 170;
+
+            for(int[] coordinate : nextBlock.getShape()) {
+                int x = previewX + (coordinate[0] * cellSize);
+                int y = previewY + (coordinate[1] * cellSize);
+                BufferedImage blockImage = getBlockImage(nextBlock.getTypeID());
+                g.drawImage(blockImage, x, y, cellSize, cellSize, this);
+            }
+
+        }
 
     }
 
@@ -231,7 +253,7 @@ public class Game extends JPanel {
             case 'J' -> jImage;
             case 'S' -> sImage;
             case 'Z' -> zImage;
-            default -> oImage;
+            default -> null;
         };
     }
 
