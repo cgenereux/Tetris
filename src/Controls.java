@@ -8,8 +8,8 @@ public class Controls extends KeyAdapter { //receive key inputs
         this.game = game;
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
-
         Block block = game.getCurrentBlock();
 
         if (block == null) {
@@ -26,12 +26,17 @@ public class Controls extends KeyAdapter { //receive key inputs
                 game.shiftBlock(block, "right");
                 game.repaint();
                 break;
+            case KeyEvent.VK_DOWN: //move down
+                game.shiftBlock(block, "down");
+                break;
             case KeyEvent.VK_UP:
                 game.rotateBlock();
                 game.repaint();
                 break;
+
             default:
                 break;
         }
+        game.repaint();
     }
 }
