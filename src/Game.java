@@ -247,7 +247,9 @@ public class Game extends JPanel {
     public Block getCurrentBlock() {
         return currentBlock;
     }
-    // does not work
+
+
+    // doesn't work
     public void dropBlock() {
         if (currentBlock == null) {
             return;

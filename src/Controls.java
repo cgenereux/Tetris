@@ -33,9 +33,11 @@ public class Controls extends KeyAdapter { //receive key inputs
                 game.rotateBlock();
                 game.repaint();
                 break;
+
+                //doesn't work
             case KeyEvent.VK_SPACE: //drop
-            game.dropBlock();
-            break;
+                game.dropBlock();
+                break;
 
             default:
                 break;
