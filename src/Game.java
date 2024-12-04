@@ -251,21 +251,25 @@ public class Game extends JPanel {
 
     // doesn't work
     public void dropBlock() {
-        if (currentBlock == null) {
-            return;
+        if (currentBlock == null) return;
+
+        //Remove block from grid to check for a valid position
+        grid.removeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
+
+        // Continuously move the block down until it can't move further
+        int newY = currentBlock.getCurrentY();
+        while (grid.canPlaceBlock(currentBlock, currentBlock.getCurrentX(), newY + 1)) {
+            newY++;
         }
 
-        int currentX = currentBlock.getCurrentX();
-        int currentY = currentBlock.getCurrentY();
+        // Finalize the block's position
 
-        while(grid.canPlaceBlock(currentBlock, currentX, currentY + 1)) {
-            currentY++; //drops block until canPlaceBlock = false
-        }
+        grid.placeBlock(currentBlock, currentBlock.getCurrentX(), newY);
 
-        grid.placeBlock(currentBlock, currentX, currentY);
-        spawnNewBlock();
+        spawnNewBlock(); // Spawn a new block since this one is now fixed in place
         repaint();
     }
+
 
 
 }

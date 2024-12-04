@@ -7,8 +7,8 @@ public class GameSpeed {
     public GameSpeed(){
         this.baseSpeed = 500; //the starting speed -> lower = faster
         this.currentSpeed = baseSpeed;
-        this.scoreThreshold = 750; //every 750 points, increase speed
-        this.speedIncrement = 50; //reduce the delay by this much
+        this.scoreThreshold = 150; //every 150 points, increase speed
+        this.speedIncrement = 100; //reduce the delay by this much
     }
 
     public void updateSpeed(int score){
