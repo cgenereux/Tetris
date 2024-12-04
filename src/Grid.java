@@ -85,11 +85,11 @@ public class Grid {
     public int clearFullRows(){ //clearing the row
         int linesCleared = 0;
 
-        for (int i = height - 2; i > 0; i--) {
-            if (isFullRow(i)) {
-                clearRow(i);
+        for (int y = height - 2; y > 0; y--) { //-2 for boundaries
+            if (isFullRow(y)) {
+                clearRow(y);
                 linesCleared++;
-                i++;
+                y++;
             }
         }
 
@@ -97,18 +97,19 @@ public class Grid {
     }
 
     private boolean isFullRow(int row) {
-        for (int i = 1; i < width - 1; i++) {
-            if (grid[row][i] == '.') {
+        for (int x = 1; x < width - 1; x++) {
+            if (grid[row][x] == '.') {
                 return false; //row not full
             }
         }
         return true;
     }
 
-    public void clearRow(int row){ //the method to clear the row
-        for (int y = row; y < 0; y--) {
-            for (int x = 1; x < width - 1; x++) {
-                grid[y][x] = grid[y - 1][x];
+    public void clearRow(int row){//the method to clear the row
+       System.out.println("clearing row: " + row); //debug
+        for (int y = row; y > 0; y--) {
+            for (int x = 1; x < width; x++) {
+                grid[y][x] = grid[y - 1][x]; //shift downward
             }
         }
 

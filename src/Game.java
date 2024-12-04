@@ -115,6 +115,7 @@ public class Game extends JPanel {
 
 
     public void spawnNewBlock() {
+        System.out.println("spawning new block");
         int linesCleared = grid.clearFullRows(); //clear the row, before spawning a new black
         if (linesCleared > 0) {
             score.addPoints(linesCleared);
