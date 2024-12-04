@@ -248,5 +248,22 @@ public class Game extends JPanel {
         return currentBlock;
     }
 
+    public void dropBlock() {
+        if (currentBlock == null) {
+            return;
+        }
+
+        int currentX = currentBlock.getCurrentX();
+        int currentY = currentBlock.getCurrentY();
+
+        while(grid.canPlaceBlock(currentBlock, currentX, currentY + 1)) {
+            currentY++; //drops block until canPlaceBlock = false
+        }
+
+        grid.placeBlock(currentBlock, currentX, currentY);
+        spawnNewBlock();
+        repaint();
+    }
+
 
 }
