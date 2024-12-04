@@ -113,6 +113,13 @@ public class Game extends JPanel {
 
 
     public void spawnNewBlock() {
+        int linesCleared = grid.clearFullRows(); //clear the row, before spawning a new black
+        if (linesCleared > 0) {
+            score.addPoints(linesCleared);
+            System.out.println("Score: " + score.getScore());
+        }
+
+
         // generate a new random block
         RandomBlock randomBlockGenerator = new RandomBlock();
         Block newBlock = randomBlockGenerator.generateBlock();
@@ -130,6 +137,7 @@ public class Game extends JPanel {
         } else {
             // if not game over
             gameTimer.stop();
+            System.out.println("Game over, Final Score: " + score.getScore());
         }
     }
 
@@ -192,6 +200,11 @@ public class Game extends JPanel {
                 g.drawImage(cellImage, drawX, drawY, cellSize, cellSize, this);
             }
         }
+
+        //draw score at top of screen
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        g.drawString("Score: " + score.getScore(), 10, 20);
     }
 
     private BufferedImage getBlockImage(char cell) {
@@ -221,4 +234,6 @@ public class Game extends JPanel {
     public Block getCurrentBlock() {
         return currentBlock;
     }
+
+
 }

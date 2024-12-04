@@ -82,6 +82,17 @@ public class Grid {
         }
     }
 
+    public int clearFullRows(){ //clearing the row
+        int linesCleared = 0;
+        return linesCleared;
+    }
+
+    public void clearRow(int row){ //the method to clear the row
+
+    }
+
+
+
     // getters for grid dimensions
     public int getHeight() {
         return height;
