@@ -84,11 +84,37 @@ public class Grid {
 
     public int clearFullRows(){ //clearing the row
         int linesCleared = 0;
+
+        for (int y = height - 2; y < 0; y--) {
+            boolean isFull = true;
+
+            for (int x = 1; x < width - 1; x++) {
+                if (grid[y][x] == '.') {
+                    isFull = false;
+                    break;
+                }
+            }
+            if (isFull) {
+                clearRow(y);
+                linesCleared++;
+                y++; //recheck row
+            }
+        }
+
+
         return linesCleared;
     }
 
     public void clearRow(int row){ //the method to clear the row
+        for (int y = row; y < 0; y--) {
+            for (int x = 1; x < width - 1; x++) {
+                grid[y][x] = grid[y-1][x];
+            }
+        }
 
+        for (int x = 1; x < width - 1; x++) {
+            grid[0][x] = '.';
+        }
     }
 
 

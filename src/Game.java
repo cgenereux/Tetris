@@ -27,7 +27,9 @@ public class Game extends JPanel {
 
     public Game() {
         // tetris is usually a 1:2 aspect ratio
-        setPreferredSize(new Dimension(540, 990)); // the tile images nicely downscale to 50x50
+        setPreferredSize(new Dimension(720, 990)); // the tile images nicely downscale to 50x50
+        //put extra width for score section 540 -> 720
+
         setBackground(Color.BLACK);
         setFocusable(true);
         requestFocusInWindow();
@@ -183,6 +185,7 @@ public class Game extends JPanel {
         zImage = loadImage("img/Z.png");
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -201,10 +204,15 @@ public class Game extends JPanel {
             }
         }
 
-        //draw score at top of screen
-        g.setColor(Color.BLACK);
+        //draw score at side of screen
+        int scoreX = grid.getWidth() * cellSize + 20; //positioning for right side of grid
+        g.setColor(Color.WHITE);
         g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        g.drawString("Score: " + score.getScore(), 10, 20);
+
+        g.drawString("Score: ", scoreX, 50);
+        g.drawString(String.valueOf(score.getScore()), scoreX, 70);
+
+
     }
 
     private BufferedImage getBlockImage(char cell) {
