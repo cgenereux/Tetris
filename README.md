@@ -64,6 +64,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 `game -> Game`
 
 <br/>
+
 #### methods
 `Controls()`
 `KeyPreseed()`
