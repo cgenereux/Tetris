@@ -5,7 +5,7 @@ public class Grid {
     private final int height = 22;
     private final int width = 12;
 
-    private char[][] grid;
+    private final char[][] grid;
 
     // initialize the grid
     public Grid() {
@@ -82,43 +82,45 @@ public class Grid {
         }
     }
 
-    public int clearFullRows(){ //clearing the row
+    public int clearFullRows() {
         int linesCleared = 0;
 
-        for (int y = height - 2; y > 0; y--) { //-2 for boundaries
+        for (int y = height - 2; y > 0; y--) {
             if (isFullRow(y)) {
+                System.out.println("Clearing row: " + y);
                 clearRow(y);
                 linesCleared++;
                 y++;
             }
         }
 
+        System.out.println("Total lines cleared: " + linesCleared);
         return linesCleared;
     }
+
 
     private boolean isFullRow(int row) {
         for (int x = 1; x < width - 1; x++) {
             if (grid[row][x] == '.') {
-                return false; //row not full
+                return false; // row not full
             }
         }
         return true;
     }
 
-    public void clearRow(int row){//the method to clear the row
-       System.out.println("clearing row: " + row); //debug
-        for (int y = row; y > 0; y--) {
-            for (int x = 1; x < width; x++) {
-                grid[y][x] = grid[y - 1][x]; //shift downward
+    // clear the row
+    public void clearRow(int row) {
+        System.out.println("clearing row: " + row); // debugging
+        for (int y = row; y > 1; y--) {
+            for (int x = 1; x < width - 1; x++) {
+                grid[y][x] = grid[y - 1][x]; // shift downward
             }
         }
 
         for (int x = 1; x < width - 1; x++) {
-            grid[0][x] = '.';
+            grid[0][x] = '#';
         }
     }
-
-
 
     // getters for grid dimensions
     public int getHeight() {
