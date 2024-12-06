@@ -15,6 +15,7 @@ public class Game extends JPanel {
     private Block currentBlock;
     private Block nextBlock;
     private Timer gameTimer;
+    protected boolean onStartScreen = true; //Allows the start screen to function
 
 
     private BufferedImage gridImage;
@@ -26,10 +27,11 @@ public class Game extends JPanel {
     private BufferedImage jImage;
     private BufferedImage sImage;
     private BufferedImage zImage;
+    private BufferedImage start;   //also part of start screen
 
     public Game() {
         // tetris is usually a 1:2 aspect ratio
-        setPreferredSize(new Dimension(540+180, 990)); // the tile images nicely downscale to 50x50
+        setPreferredSize(new Dimension(540 + 180, 990)); // the tile images nicely downscale to 50x50
         //put extra width for score and next block section section 540 -> 720
 
         setBackground(Color.BLACK);
@@ -44,7 +46,8 @@ public class Game extends JPanel {
         addKeyListener(controls);
 
         loadImages();
-
+        //Has to be loaded here after objects are initialized and before the other game elements
+        start = loadImage("img/start.png");
     }
 
     public static void main(String[] args) {
@@ -71,6 +74,7 @@ public class Game extends JPanel {
 
 
     public void startGame() {
+
         // Generate the first "next block"
         RandomBlock randomBlockGenerator = new RandomBlock();
         nextBlock = randomBlockGenerator.generateBlock();
@@ -78,7 +82,7 @@ public class Game extends JPanel {
         spawnNewBlock();
 
         gameTimer = new Timer(gameSpeed.getCurrentSpeed(), e -> {
-            if (currentBlock != null) {
+            if (currentBlock != null && !onStartScreen) { //Also checks if on start screen as game should not run whil on it
                 shiftBlock(currentBlock, "down");
                 repaint();
             }
@@ -202,6 +206,13 @@ public class Game extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        //Determines if the player is on the start screen to draw the image
+        if (onStartScreen) {
+            // Draw the start screen
+            g.drawImage(start, 0, 0, getWidth(), getHeight(), this);
+            return;
+        }
+
         int cellSize = 45;
 
         for (int y = 0; y < grid.getHeight(); y++) {
@@ -291,7 +302,4 @@ public class Game extends JPanel {
         spawnNewBlock(); // Spawn a new block since this one is now fixed in place
         repaint();
     }
-
-
-
 }
