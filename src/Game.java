@@ -16,6 +16,7 @@ public class Game extends JPanel {
     private Block nextBlock;
     private Timer gameTimer;
     protected boolean onStartScreen = true; //Allows the start screen to function
+    private boolean gameOver = false; //Alows for the end screen to function
 
 
     private BufferedImage gridImage;
@@ -28,6 +29,7 @@ public class Game extends JPanel {
     private BufferedImage sImage;
     private BufferedImage zImage;
     private BufferedImage start;   //also part of start screen
+    private BufferedImage end;
 
     public Game() {
         // tetris is usually a 1:2 aspect ratio
@@ -154,7 +156,9 @@ public class Game extends JPanel {
             // place the block
             grid.placeBlock(currentBlock, startX, startY);
         } else {
-            // if not game over
+            // Runs when the block canot be placed at the top indicating the game is over
+            end = loadImage("img/end.png");
+            gameOver = true;
             gameTimer.stop();
             System.out.println("Game over, Final Score: " + score.getScore());
         }
@@ -210,6 +214,18 @@ public class Game extends JPanel {
         if (onStartScreen) {
             // Draw the start screen
             g.drawImage(start, 0, 0, getWidth(), getHeight(), this);
+            return;
+        }
+
+        //Displays the end screen for the game
+        if (gameOver) {
+            // Draw the end screen
+            g.drawImage(end, 0, 0, getWidth(), getHeight(), this);
+
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+
+            g.drawString("Your Score: " + String.valueOf(score.getScore()), 230, 350);
             return;
         }
 

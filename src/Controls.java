@@ -23,7 +23,6 @@ public class Controls extends KeyAdapter { //receive key inputs
             return;
         }
 
-
         switch (key) {
             case KeyEvent.VK_LEFT:
                 game.shiftBlock(block, "left");
