@@ -11,72 +11,132 @@ Which will result in a **Game Over**
 
 ## Project Structure:
 There will be multiple **classes** for each of the aspects of the game:<br/>
+######  Note - Attributes -> `variable -> class/primative`
 
-### tetrisGame
+
+### Game.java
 ###### main loop of game
-#### attributes
-`game window`
-`score window` <br/>
-`level window` <br/>
-`game status(gameOver, playing, pause)` 
-#### methods <br/>
+
+#### Attributes
+`grid -> Grid`
+`score -> Score`
+`gameSpeed -> gameSpeed`
+`currentBlock -> Block`
+`nextBLock -> Block`
+`gameTimer -> Timer`
+<br/> <br/>
+`onStartScreen -> boolean`
+`gridImage, backGroundImage -> BufferedImage`
+<br/> <br/>
+`o/t/i/l/j/s/zImage -> BufferedImage`
+
+<br/>
+
+#### methods
 `startGame()`
-`pauseGame()`
 
+<br/>
 
-### Grid
-###### to display the grid and store values in the grid
+### Grid.java
+###### manage 2D game grid for placement, manipulation and removal
 #### attributes
-`2D array (width height)`
-#### methods
-`Collision()`
-`clearLine()`
-`gameOver()`
-`spawnPiece()`
+`width -> int`
+`height -> int`
 
-### Blocks.Block
-###### To define the behaviors of the blocks
-#### attributes
-`position(x,y)`
 #### methods
-`rotate()`
-`moveLeft()`
-`moveRight()`
-`moveDown()`
-`drop()`
+`placeBlock()`
+`getCell()`
+`isWithinBounds()`
+`canPlaceBlocks()`
+`removeBlock()`
+`clearFullRows()`
+`isFullRow()`
+`clearRow()`
+`getHeight()`
+`getWidth()`
 
 
-### TetrisRandom
-###### to choose a random block to spawn when it starts falling
-#### attributes
-#### methods
-`spawnRandomPiece()`
 
 ### Controls
 ###### the user input: for rotating, left and right, speeding downwards, and 'dropping' (instantly translating a block to the bottom)
 #### attributes
-###### will reference to the grid and Blocks.Block
+
+`game -> Game`
+
+<br/>
+
 #### methods
-`movePiece()`
-`rotatePiece`
-`dropPiece`
+`Controls()`
+`KeyPreseed()`
 
 ### Score
 ###### tracks the score, lines cleared, and level
 #### attributes
 `score`
-`lines cleared`
 #### methods
-`incrementscore()`
+`addPoints()`
+`getScore()`
 
 ### Render
 ###### imports the pngs into the JavaFX to use, and 'draws' the score, lines cleared, and level
 #### methods
 `importPNG()`
 
-### gameSpeed
+### GameSpeed
 ###### determines how fast the game goes, will increase based on score
 #### attributes
-`Time interval`
+`baseSpeed -> int`
+`currentSpeed -> int`
+`scoreThreshold -> int`
+`speedIncrement -> int`
+
+<br/>
 #### methods
-`adjustSpeed()`
+`GameSpeed()`
+`updateSpeed()`
+`getCurrentSpeed()`
+
+
+## **Blocks**
+### Block.java
+###### To define the behaviors of the blocks
+#### attributes
+`shape -> double array`
+`uniqueId -> int`
+`typeId -> char`
+`uniqueIdCounter -> int`
+`currentX/Y -> int`
+`pivotX/Y -> int`
+
+<br/>
+
+#### methods
+`getShape()`
+`getTypeID()`
+`getCurrentX/Y()`
+`setCurrentPostion()`
+`rotateOnceClockwise()`
+`setCurrentPosition()`
+`rotateOnceCLockwise()`
+`setShape()`
+
+<br/>
+
+### RandomBlock
+###### to choose a random block to spawn when it starts falling
+#### attributes
+`random -> Random`
+
+<br/>
+
+#### methods
+`generateBlock()`
+
+<br/>
+
+### I/J/L/O/S/T/ZBlock
+
+###### Inherited class of Block that defines the typeId and positions of block
+
+#### methods
+`I/J/L/O/S/T/ZBlock()`
