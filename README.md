@@ -3,16 +3,20 @@
 2. open _src_ folder, and go to the **Main.java** file
 3. compile and run on IDE `(shift+f10)`
 
+***
+
 ## Game Objective:
 To reach the _highest score_ you can, <br/>
 without letting the blocks pile up to the top of the grid screen:<br/>
 Which will result in a **Game Over**
 
+***
 
 ## Project Structure:
 There will be multiple **classes** for each of the aspects of the game:<br/>
 ######  Note - Attributes -> `variable -> class/primative`
 
+***
 
 ### Game.java
 ###### main loop of game
@@ -30,10 +34,13 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 <br/> <br/>
 `o/t/i/l/j/s/zImage -> BufferedImage`
 
+
 <br/>
 
 #### methods
 `startGame()`
+
+___
 
 <br/>
 
@@ -68,6 +75,8 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 #### methods
 `Controls()`
 `KeyPreseed()`
+___
+<br/>
 
 ### Score
 ###### tracks the score, lines cleared, and level
@@ -81,6 +90,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 ###### imports the pngs into the JavaFX to use, and 'draws' the score, lines cleared, and level
 #### methods
 `importPNG()`
+___
 
 ### GameSpeed
 ###### determines how fast the game goes, will increase based on score
@@ -91,6 +101,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 `speedIncrement -> int`
 
 <br/>
+
 #### methods
 `GameSpeed()`
 `updateSpeed()`
@@ -119,7 +130,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 `setCurrentPosition()`
 `rotateOnceCLockwise()`
 `setShape()`
-
+___
 <br/>
 
 ### RandomBlock
@@ -131,7 +142,7 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 
 #### methods
 `generateBlock()`
-
+___
 <br/>
 
 ### I/J/L/O/S/T/ZBlock
@@ -140,3 +151,4 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 
 #### methods
 `I/J/L/O/S/T/ZBlock()`
+___
