@@ -7,12 +7,15 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 
 public class Game extends JPanel {
+    //initializing values inside of the JPanel(game window)
     private final Grid grid;
+    // private final Blocks.RandomBlock randomBlock;
     private final Score score;
     private final GameSpeed gameSpeed;
     private Block currentBlock;
     private Block nextBlock;
     private Timer gameTimer;
+
 
     private BufferedImage gridImage;
     private BufferedImage backGroundImage;
@@ -27,7 +30,7 @@ public class Game extends JPanel {
     public Game() {
         // tetris is usually a 1:2 aspect ratio
         setPreferredSize(new Dimension(540+180, 990)); // the tile images nicely downscale to 50x50
-        //put extra width for score and next block section 540 -> 720
+        //put extra width for score and next block section section 540 -> 720
 
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -136,6 +139,7 @@ public class Game extends JPanel {
         // Set the position for the new current block
         int startX = 5; // Center of the grid
         int startY = 1;
+        currentBlock.setCurrentPosition(startX, startY);
 
 
         // set the block's position
