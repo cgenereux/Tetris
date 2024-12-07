@@ -22,15 +22,6 @@ public class Grid {
         }
     }
 
-    // displays game grid
-    public void displayGrid() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                System.out.print(grid[y][x] + " ");  // represent blocks with grid[y][x]
-            }
-            System.out.println("\n");
-        }
-    }
 
     public boolean placeBlock(Block block, int startX, int startY) {
         // check if all the tiles of the block can be placed without collision
