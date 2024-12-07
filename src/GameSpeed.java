@@ -1,8 +1,8 @@
 public class GameSpeed {
-    private int baseSpeed; //base speed
+    private final int  baseSpeed; //base speed
+    private final int scoreThreshold; //how much to increase speed
+    private final double scalingFactor;
     private int currentSpeed; //current speed
-    private int scoreThreshold; //how much to increase speed
-    private double scalingFactor;
 
     public GameSpeed(){
         this.baseSpeed = 500; //the starting speed -> lower = faster

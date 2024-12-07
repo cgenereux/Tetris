@@ -7,18 +7,17 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 
 public class Game extends JPanel {
-    //initializing values inside of the JPanel(game window)
+
     private final Grid grid;
-    // private final Blocks.RandomBlock randomBlock;
     private final Score score;
     private final GameSpeed gameSpeed;
-    private Block currentBlock;
-    private Block nextBlock;
+    private final BlockController blockController;
+    public boolean onStartScreen = true;
+    public boolean gameOver = false;
     private Timer gameTimer;
-    protected boolean onStartScreen = true; //Allows the start screen to function
-    private boolean gameOver = false; //Alows for the end screen to function
 
-
+    private BufferedImage startScreenImage;
+    private BufferedImage endScreenImage;
     private BufferedImage gridImage;
     private BufferedImage backGroundImage;
     private BufferedImage oImage;
@@ -28,13 +27,11 @@ public class Game extends JPanel {
     private BufferedImage jImage;
     private BufferedImage sImage;
     private BufferedImage zImage;
-    private BufferedImage start;   //also part of start screen
-    private BufferedImage end;
 
     public Game() {
-        // tetris is usually a 1:2 aspect ratio
-        setPreferredSize(new Dimension(540 + 180, 990)); // the tile images nicely downscale to 50x50
-        //put extra width for score and next block section section 540 -> 720
+        // Tetris is usually a 1:2 aspect ratio
+        setPreferredSize(new Dimension(540 + 180, 990));
+        // + 180 for the right side black space
 
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -43,156 +40,59 @@ public class Game extends JPanel {
         grid = new Grid();
         score = new Score();
         gameSpeed = new GameSpeed();
+        blockController = new BlockController(grid, score, gameSpeed, this);
 
         Controls controls = new Controls(this);
         addKeyListener(controls);
 
         loadImages();
-        //Has to be loaded here after objects are initialized and before the other game elements
-        start = loadImage("img/start.png");
     }
 
     public static void main(String[] args) {
-        // create the j frame
-        JFrame frame = new JFrame("Game");
-        // close the game via clicking the "X"
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // resizing might need to be disabled but it's fine for now
-        frame.setResizable(true);
-        // create an instance of the game class
-        Game gamePanel = new Game();
-        // add game to the jframe
-        frame.add(gamePanel);
-        // make the frame fit the game dimensions
-        frame.pack();
-        // center the jframe
-        frame.setLocationRelativeTo(null);
-        // make it visible
+        JFrame frame = new JFrame("Game"); // Create the JFrame
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the game via clicking the "X"
+        frame.setResizable(true); // Create an instance of the game class
+        Game gamePanel = new Game(); // Add game to the JFrame
+        frame.add(gamePanel); // Make the frame fit the game dimensions
+        frame.pack(); // Center the JFrame
+        frame.setLocationRelativeTo(null); // Make it visible
         frame.setVisible(true);
         gamePanel.requestFocusInWindow();
 
         gamePanel.startGame();
     }
 
-
     public void startGame() {
-
-        // Generate the first "next block"
-        RandomBlock randomBlockGenerator = new RandomBlock();
-        nextBlock = randomBlockGenerator.generateBlock();
-
-        spawnNewBlock();
+        // Initialize the game
+        blockController.generateNextBlock();
+        blockController.spawnNewBlock();
 
         gameTimer = new Timer(gameSpeed.getCurrentSpeed(), e -> {
-            if (currentBlock != null && !onStartScreen) { //Also checks if on start screen as game should not run whil on it
-                shiftBlock(currentBlock, "down");
+            if (!onStartScreen) {
+                blockController.shiftBlock(blockController.getCurrentBlock(), "down");
                 repaint();
             }
         });
-        gameTimer.start(); // start the timer
+        blockController.setGameTimer(gameTimer);
+        gameTimer.start();
     }
-
 
     public void shiftBlock(Block block, String direction) {
-        int newX = block.getCurrentX();
-        int newY = block.getCurrentY();
-
-        if (direction.equalsIgnoreCase("left")) {
-            newX -= 1;
-        } else if (direction.equalsIgnoreCase("right")) {
-            newX += 1;
-        } else if (direction.equalsIgnoreCase("down")) {
-            newY += 1;
-        }
-
-        // remove the current block
-        grid.removeBlock(block, block.getCurrentX(), block.getCurrentY());
-
-        // check if the intended new position is valid
-        if (grid.canPlaceBlock(block, newX, newY)) {
-            // update and place the block
-            block.setCurrentPosition(newX, newY);
-            grid.placeBlock(block, newX, newY);
-        } else {
-            if (direction.equalsIgnoreCase("down")) {
-                grid.placeBlock(block, block.getCurrentX(), block.getCurrentY());
-                spawnNewBlock();
-            } else {
-                // if not revert the change
-                grid.placeBlock(block, block.getCurrentX(), block.getCurrentY());
-            }
-        }
-        repaint();
-    }
-
-
-    public void spawnNewBlock() {
-        System.out.println("spawning new block");
-        int linesCleared = grid.clearFullRows(); //get the linesCleared
-        if (linesCleared > 0) {
-            score.addPoints(linesCleared);
-            System.out.println("Score: " + score.getScore());
-
-            gameSpeed.updateSpeed(score.getScore());
-            gameTimer.setDelay(gameSpeed.getCurrentSpeed());
-        }
-
-        currentBlock = nextBlock;
-        // Generate a new nextBlock
-        RandomBlock randomBlockGenerator = new RandomBlock();
-        nextBlock = randomBlockGenerator.generateBlock();
-
-        // Set the position for the new current block
-        int startX = 5; // Center of the grid
-        int startY = 1;
-        currentBlock.setCurrentPosition(startX, startY);
-
-
-        // set the block's position
-        currentBlock.setCurrentPosition(startX, startY);
-
-        // check if the new block can be placed
-        if (grid.canPlaceBlock(currentBlock, startX, startY)) {
-            // place the block
-            grid.placeBlock(currentBlock, startX, startY);
-        } else {
-            // Runs when the block canot be placed at the top indicating the game is over
-            end = loadImage("img/end.png");
-            gameOver = true;
-            gameTimer.stop();
-            System.out.println("Game over, Final Score: " + score.getScore());
-        }
+        blockController.shiftBlock(block, direction);
     }
 
     public void rotateBlock() {
-        // the o block shouldn't rotate
-        if (currentBlock == null || currentBlock.getTypeID() == 'O') {
-            return;
-        }
-
-        // remove the block from the grid before rotation
-        grid.removeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
-
-        // make a copy of the block's shape
-        int[][] originalShape = new int[currentBlock.getShape().length][2];
-        for (int i = 0; i < currentBlock.getShape().length; i++) {
-            originalShape[i][0] = currentBlock.getShape()[i][0];
-            originalShape[i][1] = currentBlock.getShape()[i][1];
-        }
-
-        currentBlock.rotateOnceClockwise();
-
-        // check if the rotated block can be placed at the current position
-        if (grid.canPlaceBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY())) {
-            grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
-        } else {
-            // if the rotation is invalid revert it
-            currentBlock.setShape(originalShape);
-            grid.placeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
-        }
-        repaint();
+        blockController.rotateBlock();
     }
 
+    public void dropBlock() {
+        blockController.dropBlock();
+    }
+
+    // Getter to check if the game is on the start screen
+    public boolean isOnStartScreen() {
+        return onStartScreen;
+    }
 
     private void loadImages() {
         gridImage = loadImage("img/grid.png");
@@ -204,23 +104,24 @@ public class Game extends JPanel {
         jImage = loadImage("img/J.png");
         sImage = loadImage("img/S.png");
         zImage = loadImage("img/Z.png");
+        startScreenImage = loadImage("img/start-screen.png");
+        endScreenImage = loadImage("img/end-screen.png");
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //Determines if the player is on the start screen to draw the image
+        // Determines if the player is on the start screen to draw the image
         if (onStartScreen) {
             // Draw the start screen
-            g.drawImage(start, 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(startScreenImage, 0, 0, getWidth(), getHeight(), this);
             return;
         }
-
-        //Displays the end screen for the game
+        // Displays the end screen for the game
         if (gameOver) {
             // Draw the end screen
-            g.drawImage(end, 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(endScreenImage, 0, 0, getWidth(), getHeight(), this);
 
             g.setColor(Color.WHITE);
             g.setFont(new Font("Times New Roman", Font.PLAIN, 40));
@@ -236,7 +137,7 @@ public class Game extends JPanel {
                 int drawX = x * cellSize;
                 int drawY = y * cellSize;
 
-                // determine the type of cell and draw it
+                // Determine the type of cell and draw it
                 char cell = grid.getCell(x, y);
                 BufferedImage cellImage = getBlockImage(cell);
 
@@ -244,29 +145,28 @@ public class Game extends JPanel {
             }
         }
 
-        //draw score at side of screen
-        int scoreX = grid.getWidth() * cellSize + 20; //positioning for right side of grid
+        // Draw score at the side of the screen
+        int scoreX = grid.getWidth() * cellSize + 20; // Positioning for right side of grid
         g.setColor(Color.WHITE);
         g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
         g.drawString("Score: ", scoreX, 50);
         g.drawString(String.valueOf(score.getScore()), scoreX, 70);
 
-        //draw next block
+        // Draw next block
+        Block nextBlock = blockController.getNextBlock();
         if (nextBlock != null) {
             g.drawString("Next Block: ", scoreX, 150);
             int previewX = scoreX;
             int previewY = 170;
 
-            for(int[] coordinate : nextBlock.getShape()) {
+            for (int[] coordinate : nextBlock.getShape()) {
                 int x = previewX + (coordinate[0] * cellSize);
                 int y = previewY + (coordinate[1] * cellSize);
                 BufferedImage blockImage = getBlockImage(nextBlock.getTypeID());
                 g.drawImage(blockImage, x, y, cellSize, cellSize, this);
             }
-
         }
-
     }
 
     private BufferedImage getBlockImage(char cell) {
@@ -288,34 +188,16 @@ public class Game extends JPanel {
         try {
             return ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
         } catch (IOException | IllegalArgumentException e) {
-            System.err.println("failed to load image: " + path);
+            System.err.println("Failed to load image: " + path);
             return null;
         }
     }
 
-    public Block getCurrentBlock() {
-        return currentBlock;
+    public BlockController getBlockController() {
+        return blockController;
     }
 
-
-    // doesn't work
-    public void dropBlock() {
-        if (currentBlock == null) return;
-
-        //Remove block from grid to check for a valid position
-        grid.removeBlock(currentBlock, currentBlock.getCurrentX(), currentBlock.getCurrentY());
-
-        // Continuously move the block down until it can't move further
-        int newY = currentBlock.getCurrentY();
-        while (grid.canPlaceBlock(currentBlock, currentBlock.getCurrentX(), newY + 1)) {
-            newY++;
-        }
-
-        // Finalize the block's position
-
-        grid.placeBlock(currentBlock, currentBlock.getCurrentX(), newY);
-
-        spawnNewBlock(); // Spawn a new block since this one is now fixed in place
-        repaint();
+    public void setOnStartScreen(boolean onStartScreen) {
+        this.onStartScreen = onStartScreen;
     }
 }

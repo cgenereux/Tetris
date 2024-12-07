@@ -10,7 +10,7 @@ public class Controls extends KeyAdapter { //receive key inputs
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Block block = game.getCurrentBlock();
+        Block block = game.getBlockController().getCurrentBlock();
 
         if (block == null) {
             return;
@@ -40,7 +40,7 @@ public class Controls extends KeyAdapter { //receive key inputs
                 game.repaint();
                 break;
 
-                //doesn't work
+            //doesn't work
             case KeyEvent.VK_SPACE: //drop
                 game.dropBlock();
                 break;
