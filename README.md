@@ -103,6 +103,7 @@ ___
 `getScore()`
 ___
 <br/>
+
 ### Renderer
 ###### rendering the visuals of the game
 
