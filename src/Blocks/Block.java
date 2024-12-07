@@ -43,13 +43,18 @@ public class Block {
 
     public void rotateOnceClockwise() {
         int[][] newShape = new int[shape.length][2];
+          // loop through each element in the shape
         for (int i = 0; i < shape.length; i++) {
+            // get the relative coordinates of the element pre-rotation
             int x = shape[i][0] - pivotX;
             int y = shape[i][1] - pivotY;
 
+            // apply the rotation transformation formula for a 90 degrees clockwise rotation
+            // formula is from 2d matrix transformations in linear algebra
             int rotatedX = y;
             int rotatedY = -x;
 
+            // assign the element to its new position
             newShape[i][0] = rotatedX + pivotX;
             newShape[i][1] = rotatedY + pivotY;
         }
@@ -60,6 +65,7 @@ public class Block {
         }
     }
 
+    // define or re-define shape
     public void setShape(int[][] newShape) {
         for (int i = 0; i < shape.length; i++) {
             shape[i][0] = newShape[i][0];
