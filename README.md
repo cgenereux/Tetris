@@ -127,7 +127,7 @@ ___
 ***
 
 ### BlockController
-
+###### Controls block behavior, while interacting with the grid and score
 #### attributes
 `grid -> Grid`
 `score -> score`
