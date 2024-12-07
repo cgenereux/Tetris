@@ -103,6 +103,7 @@ ___
 `getScore()`
 ___
 <br/>
+
 ### Renderer
 ###### rendering the visuals of the game
 
@@ -156,6 +157,7 @@ ___
 `gameTimer -> Timer`
 
 <br/>
+
 #### methods
 `BlockController()`
 `shiftBlock()`
