@@ -33,12 +33,12 @@ public class Renderer {
     }
 
     public void render(Graphics g, boolean onStartScreen, boolean gameOver) {
-        // draw the start screen
+        // drawing the start screen
         if (onStartScreen) {
             g.drawImage(startScreenImage, 0, 0, game.getWidth(), game.getHeight(), game);
             return;
         }
-        // draw the end screen
+        // drawing the end screen
         if (gameOver) {
             g.drawImage(endScreenImage, 0, 0, game.getWidth(), game.getHeight(), game);
             g.setColor(Color.WHITE);
@@ -49,6 +49,7 @@ public class Renderer {
 
         int cellSize = 45;
 
+        // drawing the cells
         for (int y = 0; y < grid.getHeight(); y++) {
             for (int x = 0; x < grid.getWidth(); x++) {
                 int drawX = x * cellSize;
@@ -59,13 +60,14 @@ public class Renderer {
             }
         }
 
-        // draw the score
+        // drawing the score
         int scoreX = grid.getWidth() * cellSize + 20;
         g.setColor(Color.WHITE);
         g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         g.drawString("Score: ", scoreX, 50);
         g.drawString(String.valueOf(score.getScore()), scoreX, 70);
 
+        // drawing the upcoming block
         Block nextBlock = blockController.getNextBlock();
         if (nextBlock != null) {
             g.drawString("Next Block: ", scoreX, 150);
