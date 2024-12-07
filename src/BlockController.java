@@ -92,6 +92,7 @@ public class BlockController {
             // Runs when the block cannot be placed at the top indicating the game is over
             gameTimer.stop();
             game.gameOver = true;
+            game.writeHighScore();
             System.out.println("Game over, Final Score: " + score.getScore());
         }
     }

@@ -44,6 +44,8 @@ public class Renderer {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Times New Roman", Font.PLAIN, 40));
             g.drawString("Your Score: " + score.getScore(), 230, 350);
+            g.drawString("All Time High Score: " + game.highScore, 150, 450);
+
             return;
         }
 

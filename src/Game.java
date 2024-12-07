@@ -1,6 +1,8 @@
 import Blocks.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.util.Scanner;
 
 public class Game extends JPanel {
 
@@ -11,6 +13,7 @@ public class Game extends JPanel {
     private final BlockController blockController;
     public boolean onStartScreen = true;
     public boolean gameOver = false;
+    protected int highScore = 0; //Default 0 in case file is modified by user to be blank which would cause errors
     private Timer gameTimer;
 
     public Game() {
@@ -43,6 +46,9 @@ public class Game extends JPanel {
         frame.setVisible(true);
         gamePanel.requestFocusInWindow();
 
+        //Sets the highscore variable
+        gamePanel.readHighScore();
+
         gamePanel.startGame();
     }
 
@@ -59,6 +65,42 @@ public class Game extends JPanel {
         });
         blockController.setGameTimer(gameTimer);
         gameTimer.start();
+    }
+
+    public void readHighScore() {
+
+        try {
+            File file = new File("data/highscore.txt");
+
+            Scanner sc = new Scanner(file);
+
+            highScore = sc.nextInt();
+            System.out.println("High score: " + highScore);
+
+            sc.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void writeHighScore() {
+
+       //Set the new alltime high score if needed
+       if (score.getScore() > highScore) {
+           try {
+               System.out.println("Writing");
+               File file = new File("data/highscore.txt");
+               PrintWriter pw = new PrintWriter(file);
+
+               pw.print(score.getScore());
+               pw.close();
+
+           } catch (FileNotFoundException e) {
+               e.printStackTrace();
+
+           }
+        }
     }
 
     public void shiftBlock(Block block, String direction) {
