@@ -5,13 +5,12 @@ public class Block {
     private final int[][] shape; // it's relative coordinates. so like: {{0, 0}, {1, 0}, etc}}
 
     private final char typeId;
-    private static int uniqueIdCounter = 1;
     private int currentX;
     private int currentY;
     private final int pivotX;
     private final int pivotY;
 
-    public Block(int[][] shape, char typeId, String color) {
+    public Block(int[][] shape, char typeId) {
         this.typeId = typeId;
         this.shape = shape;
         this.currentX = 0;
