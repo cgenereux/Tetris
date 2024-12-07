@@ -157,6 +157,7 @@ ___
 `gameTimer -> Timer`
 
 <br/>
+
 #### methods
 `BlockController()`
 `shiftBlock()`
