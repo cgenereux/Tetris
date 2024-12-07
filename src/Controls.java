@@ -18,8 +18,8 @@ public class Controls extends KeyAdapter { //receive key inputs
         int key = e.getKeyCode();
 
         // Allows the start screen to go away when space key is pressed on start screen
-        if (game.onStartScreen && key == KeyEvent.VK_SPACE) {
-            game.onStartScreen = false;
+        if (game.isStartScreen() && key == KeyEvent.VK_SPACE) {
+            game.setStartScreen(false);
             return;
         }
 

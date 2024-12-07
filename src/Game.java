@@ -11,9 +11,9 @@ public class Game extends JPanel {
     private final GameSpeed gameSpeed;
     private final Renderer renderer;
     private final BlockController blockController;
-    public boolean onStartScreen = true;
-    public boolean gameOver = false;
-    protected int highScore = 0; //Default 0 in case file is modified by user to be blank which would cause errors
+    private boolean onStartScreen = true;
+    private boolean isGameOver = false;
+    private int highScore = 0; // Default 0 in case file is modified by user to be blank which would cause errors
     private Timer gameTimer;
 
     public Game() {
@@ -117,11 +117,35 @@ public class Game extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        renderer.render(g, onStartScreen, gameOver);
+        renderer.render(g, onStartScreen, isGameOver);
     }
 
     public BlockController getBlockController() {
         return blockController;
+    }
+
+    public boolean isStartScreen() {
+        return onStartScreen;
+    }
+
+    public void setStartScreen(boolean onStartScreen) {
+        this.onStartScreen = onStartScreen;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean isGameOver) {
+        this.isGameOver = isGameOver;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 
 }
