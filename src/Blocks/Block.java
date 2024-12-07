@@ -19,7 +19,6 @@ public class Block {
         this.currentY = 0;
         this.pivotX = shape[1][0];
         this.pivotY = shape[1][1];
-
     }
 
     public int[][] getShape() {
@@ -85,5 +84,4 @@ public class Block {
             shape[i][1] = newShape[i][1];
         }
     }
-
 }

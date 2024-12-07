@@ -1,10 +1,6 @@
 import Blocks.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
-import javax.imageio.ImageIO;
 
 public class Game extends JPanel {
 
@@ -77,31 +73,13 @@ public class Game extends JPanel {
         blockController.dropBlock();
     }
 
-    // Getter to check if the game is on the start screen
-    public boolean isOnStartScreen() {
-        return onStartScreen;
-    }
-
-    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         renderer.render(g, onStartScreen, gameOver);
-    }
-
-    private BufferedImage loadImage(String path) {
-        try {
-            return ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
-        } catch (IOException | IllegalArgumentException e) {
-            System.err.println("Failed to load image: " + path);
-            return null;
-        }
     }
 
     public BlockController getBlockController() {
         return blockController;
     }
 
-    public void setOnStartScreen(boolean onStartScreen) {
-        this.onStartScreen = onStartScreen;
-    }
 }
