@@ -46,6 +46,17 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 
 #### methods
 `startGame()`
+`main()`
+`rotateBlock()`
+`dropBlock()`
+`loadImages()`
+`paintComponent()`
+`getBlockImage()`
+`loadImage()`
+
+``
+
+
 
 ___
 
@@ -113,6 +124,31 @@ ___
 `GameSpeed()`
 `updateSpeed()`
 `getCurrentSpeed()`
+***
+
+### BlockController
+
+#### attributes
+`grid -> Grid`
+`score -> score`
+`gameSpeed -> GameSpeed`
+`game -> Game`
+`currentBlock -> Block`
+`nextBlock Block -> Block`
+`gameTimer -> Timer`
+
+<br/>
+#### methods
+`BlockController()`
+`shiftBlock()`
+`setGameTimer()`
+`spawnNewBlock()`
+`rotateBlock()`
+`dropBlock()`
+`getCurrentBlock()`
+`getNextBlock()`
+***
+<br/>
 
 
 ## **Blocks**
