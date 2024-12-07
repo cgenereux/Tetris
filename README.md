@@ -32,27 +32,24 @@ There will be multiple **classes** for each of the aspects of the game:<br/>
 `grid -> Grid`
 `score -> Score`
 `gameSpeed -> gameSpeed`
-`currentBlock -> Block`
-`nextBLock -> Block`
-`gameTimer -> Timer`
-<br/> <br/>
+`renderer -> Renderer`
+`blockController -> BlockCOntroller`
 `onStartScreen -> boolean`
-`gridImage, backGroundImage -> BufferedImage`
-<br/> <br/>
-`o/t/i/l/j/s/zImage -> BufferedImage`
+`gameOver -> boolean`
+`gameTimer -> Timer`
+
 
 
 <br/>
 
 #### methods
-`startGame()`
+`Game()`
 `main()`
+`startGame()`
+`shiftBlock()`
 `rotateBlock()`
 `dropBlock()`
-`loadImages()`
-`paintComponent()`
-`getBlockImage()`
-`loadImage()`
+`getBlockController()`
 
 ``
 
@@ -69,6 +66,7 @@ ___
 `height -> int`
 
 #### methods
+`Grid()`
 `placeBlock()`
 `getCell()`
 `isWithinBounds()`
@@ -97,17 +95,37 @@ ___
 <br/>
 
 ### Score
-###### tracks the score, lines cleared, and level
+###### tracks the score and lines cleared
 #### attributes
 `score`
 #### methods
 `addPoints()`
 `getScore()`
+___
+<br/>
+### Renderer
+###### rendering the visuals of the game
 
-### Render
-###### imports the pngs into the JavaFX to use, and 'draws' the score, lines cleared, and level
+#### attributes
+`game -> Game`
+`grid -> Grid`
+`score -> Score`
+`blockController -> BlockControler`
+<br/>
+`startScreenImage`
+`endScreenImage`
+`gridImage`
+`backGroundImage`
+`o/t/i/l/j/s/zImage`
+`-> BufferedImage`
+
 #### methods
-`importPNG()`
+`iRenderer()`
+`render()`
+`getBlockImage()`
+`loadImages()`
+`loadImage()`
+
 ___
 
 ### GameSpeed
