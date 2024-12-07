@@ -1,6 +1,8 @@
 import Blocks.*;
 import javax.swing.Timer;
 
+/* code was refactored by curtis but was not all written by curtis */
+
 public class BlockController {
     private final Grid grid;
     private final Score score;
