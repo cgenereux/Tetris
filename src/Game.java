@@ -15,8 +15,8 @@ public class Game extends JPanel {
 
     public Game() {
         // Tetris is usually a 1:2 aspect ratio
-        setPreferredSize(new Dimension(540 + 180, 990));
         // + 180 for the right side black space
+        setPreferredSize(new Dimension(540 + 180, 990));
 
         setBackground(Color.BLACK);
         setFocusable(true);
