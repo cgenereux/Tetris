@@ -28,9 +28,6 @@ public class Block {
         return typeId;
     }
 
-
-
-
     public int getCurrentX() {
         return currentX;
     }
