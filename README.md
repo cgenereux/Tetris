@@ -10,6 +10,13 @@ To reach the _highest score_ you can, <br/>
 without letting the blocks pile up to the top of the grid screen:<br/>
 Which will result in a **Game Over**
 
+*** 
+## Controls 
+&uarr; `rotation (clockwise)`<br/>
+&larr; `move left` <br/>
+&rarr; `move right` <br/>
+&darr; `speed downwards`<br/>
+space `drop block` 
 ***
 
 ## Project Structure:
