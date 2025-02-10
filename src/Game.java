@@ -147,5 +147,4 @@ public class Game extends JPanel {
     public void setHighScore(int highScore) {
         this.highScore = highScore;
     }
-
 }

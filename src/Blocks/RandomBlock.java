@@ -19,6 +19,4 @@ public class RandomBlock {
             default -> new IBlock();
         };
     }
-
-
 }

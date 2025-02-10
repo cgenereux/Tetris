@@ -42,9 +42,10 @@ public class Block {
 
     public void rotateOnceClockwise() {
         int[][] newShape = new int[shape.length][2];
-          // loop through each element in the shape
+        // loop through each element in the shape
         for (int i = 0; i < shape.length; i++) {
-            // get the relative coordinates of the element pre-rotation
+
+            // translate each tile to being relative to the pivot point for the rotation
             int x = shape[i][0] - pivotX;
             int y = shape[i][1] - pivotY;
 

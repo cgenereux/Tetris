@@ -22,7 +22,6 @@ public class Grid {
         }
     }
 
-
     public boolean placeBlock(Block block, int startX, int startY) {
         // check if all the tiles of the block can be placed without collision
         for (int[] coordinate : block.getShape()) {
